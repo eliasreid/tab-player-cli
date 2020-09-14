@@ -1,17 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
   <component name="CargoProjects">
     <cargoProject FILE="$PROJECT_DIR$/Cargo.toml" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="abae24e2-2505-42ff-9612-5aa4efc43ca2" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/parser.rs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Cargo.lock" beforeDir="false" afterPath="$PROJECT_DIR$/Cargo.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Cargo.toml" beforeDir="false" afterPath="$PROJECT_DIR$/Cargo.toml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.rs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Rust File" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -33,10 +52,14 @@
   <component name="RunAnythingCache">
     <option name="myCommands">
       <command value="cargo run" />
+      <command value="cargo run --release" />
+      <command value="cargo build --release" />
       <command value="cargo build" />
+      <command value="cargo run -- --generate-template" />
+      <command value="cargo run -- generate-template" />
     </option>
   </component>
-  <component name="RunManager" selected="Cargo Command.build">
+  <component name="RunManager" selected="Cargo Command.run">
     <configuration name="build" type="CargoCommandRunConfiguration" factoryName="Cargo Command" temporary="true">
       <option name="channel" value="DEFAULT" />
       <option name="command" value="build" />
@@ -51,7 +74,7 @@
     </configuration>
     <configuration name="run" type="CargoCommandRunConfiguration" factoryName="Cargo Command" temporary="true">
       <option name="channel" value="DEFAULT" />
-      <option name="command" value="run" />
+      <option name="command" value="run -- generate-template" />
       <option name="allFeatures" value="false" />
       <option name="emulateTerminal" value="false" />
       <option name="backtrace" value="SHORT" />
@@ -63,8 +86,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Cargo Command.build" />
-        <item itemvalue="Cargo Command.build" />
+        <item itemvalue="Cargo Command.run" />
+        <item itemvalue="Cargo Command.run" />
         <item itemvalue="Cargo Command.run" />
         <item itemvalue="Cargo Command.run" />
         <item itemvalue="Cargo Command.run" />
@@ -85,26 +108,45 @@
     </task>
     <servers />
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="WindowStateProjectService">
-    <state width="1874" height="280" key="GridCell.Tab.0.bottom" timestamp="1600089985071">
+    <state width="825" height="280" key="GridCell.Tab.0.bottom" timestamp="1600107021130">
       <screen x="0" y="0" width="1920" height="1043" />
     </state>
-    <state width="1874" height="280" key="GridCell.Tab.0.bottom/0.0.1920.1043@0.0.1920.1043" timestamp="1600089985070" />
-    <state width="1874" height="280" key="GridCell.Tab.0.center" timestamp="1600089985067">
+    <state width="825" height="280" key="GridCell.Tab.0.bottom/0.0.1920.1043@0.0.1920.1043" timestamp="1600107021130" />
+    <state width="825" height="280" key="GridCell.Tab.0.center" timestamp="1600107021129">
       <screen x="0" y="0" width="1920" height="1043" />
     </state>
-    <state width="1874" height="280" key="GridCell.Tab.0.center/0.0.1920.1043@0.0.1920.1043" timestamp="1600089985067" />
-    <state width="1874" height="280" key="GridCell.Tab.0.left" timestamp="1600089985066">
+    <state width="825" height="280" key="GridCell.Tab.0.center/0.0.1920.1043@0.0.1920.1043" timestamp="1600107021129" />
+    <state width="825" height="280" key="GridCell.Tab.0.left" timestamp="1600107021129">
       <screen x="0" y="0" width="1920" height="1043" />
     </state>
-    <state width="1874" height="280" key="GridCell.Tab.0.left/0.0.1920.1043@0.0.1920.1043" timestamp="1600089985066" />
-    <state width="1874" height="280" key="GridCell.Tab.0.right" timestamp="1600089985069">
+    <state width="825" height="280" key="GridCell.Tab.0.left/0.0.1920.1043@0.0.1920.1043" timestamp="1600107021129" />
+    <state width="825" height="280" key="GridCell.Tab.0.right" timestamp="1600107021129">
       <screen x="0" y="0" width="1920" height="1043" />
     </state>
-    <state width="1874" height="280" key="GridCell.Tab.0.right/0.0.1920.1043@0.0.1920.1043" timestamp="1600089985069" />
-    <state x="142" y="238" width="672" height="677" key="run.anything.popup" timestamp="1600089985016">
+    <state width="825" height="280" key="GridCell.Tab.0.right/0.0.1920.1043@0.0.1920.1043" timestamp="1600107021129" />
+    <state x="184" y="86" width="592" height="870" key="find.popup" timestamp="1600106499091">
       <screen x="0" y="0" width="1920" height="1043" />
     </state>
-    <state x="142" y="238" width="672" height="677" key="run.anything.popup/0.0.1920.1043@0.0.1920.1043" timestamp="1600089985016" />
+    <state x="184" y="86" width="592" height="870" key="find.popup/0.0.1920.1043@0.0.1920.1043" timestamp="1600106499091" />
+    <state x="142" y="238" width="672" height="677" key="run.anything.popup" timestamp="1600107021097">
+      <screen x="0" y="0" width="1920" height="1043" />
+    </state>
+    <state x="142" y="238" width="672" height="677" key="run.anything.popup/0.0.1920.1043@0.0.1920.1043" timestamp="1600107021097" />
+    <state x="143" y="229" width="672" height="678" key="search.everywhere.popup" timestamp="1600106431618">
+      <screen x="0" y="0" width="1920" height="1043" />
+    </state>
+    <state x="143" y="229" width="672" height="678" key="search.everywhere.popup/0.0.1920.1043@0.0.1920.1043" timestamp="1600106431618" />
   </component>
 </project>
