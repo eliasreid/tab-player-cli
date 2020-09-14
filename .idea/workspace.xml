@@ -4,7 +4,10 @@
     <cargoProject FILE="$PROJECT_DIR$/Cargo.toml" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="abae24e2-2505-42ff-9612-5aa4efc43ca2" name="Default Changelist" comment="" />
+    <list default="true" id="abae24e2-2505-42ff-9612-5aa4efc43ca2" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.rs" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -29,10 +32,11 @@
   </component>
   <component name="RunAnythingCache">
     <option name="myCommands">
+      <command value="cargo run" />
       <command value="cargo build" />
     </option>
   </component>
-  <component name="RunManager" selected="Cargo Command.run">
+  <component name="RunManager" selected="Cargo Command.build">
     <configuration name="build" type="CargoCommandRunConfiguration" factoryName="Cargo Command" temporary="true">
       <option name="channel" value="DEFAULT" />
       <option name="command" value="build" />
@@ -59,11 +63,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Cargo Command.build" />
+        <item itemvalue="Cargo Command.build" />
         <item itemvalue="Cargo Command.run" />
-        <item itemvalue="Cargo Command.build" />
-        <item itemvalue="Cargo Command.build" />
-        <item itemvalue="Cargo Command.build" />
-        <item itemvalue="Cargo Command.build" />
+        <item itemvalue="Cargo Command.run" />
+        <item itemvalue="Cargo Command.run" />
       </list>
     </recent_temporary>
   </component>
@@ -82,25 +86,25 @@
     <servers />
   </component>
   <component name="WindowStateProjectService">
-    <state width="910" height="384" key="GridCell.Tab.0.bottom" timestamp="1600089374569">
+    <state width="1874" height="280" key="GridCell.Tab.0.bottom" timestamp="1600089985071">
       <screen x="0" y="0" width="1920" height="1043" />
     </state>
-    <state width="910" height="384" key="GridCell.Tab.0.bottom/0.0.1920.1043@0.0.1920.1043" timestamp="1600089374569" />
-    <state width="910" height="384" key="GridCell.Tab.0.center" timestamp="1600089374568">
+    <state width="1874" height="280" key="GridCell.Tab.0.bottom/0.0.1920.1043@0.0.1920.1043" timestamp="1600089985070" />
+    <state width="1874" height="280" key="GridCell.Tab.0.center" timestamp="1600089985067">
       <screen x="0" y="0" width="1920" height="1043" />
     </state>
-    <state width="910" height="384" key="GridCell.Tab.0.center/0.0.1920.1043@0.0.1920.1043" timestamp="1600089374568" />
-    <state width="910" height="384" key="GridCell.Tab.0.left" timestamp="1600089374568">
+    <state width="1874" height="280" key="GridCell.Tab.0.center/0.0.1920.1043@0.0.1920.1043" timestamp="1600089985067" />
+    <state width="1874" height="280" key="GridCell.Tab.0.left" timestamp="1600089985066">
       <screen x="0" y="0" width="1920" height="1043" />
     </state>
-    <state width="910" height="384" key="GridCell.Tab.0.left/0.0.1920.1043@0.0.1920.1043" timestamp="1600089374568" />
-    <state width="910" height="384" key="GridCell.Tab.0.right" timestamp="1600089374568">
+    <state width="1874" height="280" key="GridCell.Tab.0.left/0.0.1920.1043@0.0.1920.1043" timestamp="1600089985066" />
+    <state width="1874" height="280" key="GridCell.Tab.0.right" timestamp="1600089985069">
       <screen x="0" y="0" width="1920" height="1043" />
     </state>
-    <state width="910" height="384" key="GridCell.Tab.0.right/0.0.1920.1043@0.0.1920.1043" timestamp="1600089374568" />
-    <state x="142" y="238" width="672" height="677" key="run.anything.popup" timestamp="1600089374317">
+    <state width="1874" height="280" key="GridCell.Tab.0.right/0.0.1920.1043@0.0.1920.1043" timestamp="1600089985069" />
+    <state x="142" y="238" width="672" height="677" key="run.anything.popup" timestamp="1600089985016">
       <screen x="0" y="0" width="1920" height="1043" />
     </state>
-    <state x="142" y="238" width="672" height="677" key="run.anything.popup/0.0.1920.1043@0.0.1920.1043" timestamp="1600089374317" />
+    <state x="142" y="238" width="672" height="677" key="run.anything.popup/0.0.1920.1043@0.0.1920.1043" timestamp="1600089985016" />
   </component>
 </project>
