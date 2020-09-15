@@ -18,14 +18,18 @@ pub fn generate_template() -> std::io::Result<()>{
   let measures_per_row: usize = 2;
   let num_rows: usize = 2;
 
+  //Before anything, write some times steps to help guide
+  let mut time_fractions = String::from(" ");
+  //TODO: unhard code this - should be based on timing parameters.
+  file.write_all(b" 1/4         2/4         3/4         4/4\n");
+  
   for _ in 0..num_rows {
-    //Before write the strings, write a some pipes to help show where the quarter note beats are
-
-    for _ in 0..BEATS_PER_MEASURE * measures_per_row {
-      //offset from the string note and first measure separator
-      let mut rhythm_guide = String::from("  ");
-
+    //TODO: unhard code this - should be based on timing parameters.
+    file.write_all(b"  |           |           |           |         ");
+    for _ in 0..(measures_per_row - 1) { 
+      file.write_all(b"  |           |           |           |");
     }
+    file.write_all(b"\n");
 
     //For each string
     for open_note in standard_tuning.iter() {

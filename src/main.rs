@@ -24,7 +24,6 @@ fn main() {
   //If --generate-template, then generate a template
 
   if args.is_present("generate-template") {
-    println!("to generate a template");
     generate_template();
     return;
   }
