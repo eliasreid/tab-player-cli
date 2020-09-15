@@ -16,15 +16,19 @@ fn main() {
     .version("0.1")
     .about("WIP - play tabs from cli")
     .arg(Arg::with_name("generate-template")
-           .help("Generate a blank tab to be editted")
-           .takes_value(false)
-           .required(false)) // beats per bar
+           .short("g")
+           .long("generate-template")
+           .value_name("FILE")
+           .takes_value(true)
+           .default_value("./tab-template.txt")
+           .required(true))
     .get_matches();
 
   //If --generate-template, then generate a template
 
   if args.is_present("generate-template") {
-    generate_template();
+    let path = args.value_of("generate-template").unwrap();
+    generate_template(path);
     return;
   }
 

@@ -7,9 +7,9 @@ const BEATS_PER_MEASURE: usize = 16;
 const MEASURE_SEPARATOR: char = '|';
 const NOTE_SEPARATOR: char = ' ';
 
-pub fn generate_template() -> std::io::Result<()>{
+pub fn generate_template(save_file: &str) -> std::io::Result<()>{
   ///TODO: take in path as arg, use it to create file with specific location
-  let mut file = File::create("testfile.txt")?;
+  let mut file = File::create(save_file)?;
 
   ///TODO: configurable - should annotate if standard tuning?
   let standard_tuning = ['e', 'B', 'G', 'D', 'A', 'E'];
