@@ -5,7 +5,7 @@ use std::io::prelude::*;
 use itertools::Itertools;
 
 const BEAT_WIDTH: u32 = 3;
-const BEAT_OFFSET: u32 = 2;
+const BEAT_OFFSET: u32 = 3;
 const EMPTY_NOTE: &str = "--";
 ///TODO: Should be configurable
 const BEATS_PER_MEASURE: usize = 16;
@@ -13,25 +13,27 @@ const MEASURE_SEPARATOR: char = '|';
 const NOTE_SEPARATOR: char = ' ';
 const HOLD_IDEN: &str = ">>";
 
+
+
+//TODO: generate template should write to generic buffer instead of to a file directly
+
 pub fn generate_template(save_file: &str) -> std::io::Result<()>{
-  //!TODO: take in path as arg, use it to create file with specific location
+  //TODO: take in path as arg, use it to create file with specific location
   let mut file = File::create(save_file)?;
 
-  ///TODO: configurable - should annotate if standard tuning?
-  let standard_tuning = ['e', 'B', 'G', 'D', 'A', 'E'];
+  //TODO: configurable - should annotate if standard tuning?
+  let standard_tuning = ["E4", "B3", "G3", "D3", "A2", "E2"];
 
-  ///TODO: configurable.
+  //TODO: configurable.
   let measures_per_row: usize = 2;
   let num_rows: usize = 2;
 
-  //Before anything, write some times steps to help guide
-  let mut time_fractions = String::from(" ");
   //TODO: unhard code this - should be based on timing parameters.
-  file.write_all(b" 1/4         2/4         3/4         4/4\n")?;
+  file.write_all(b"  1/4         2/4         3/4         4/4\n")?;
   
   for _ in 0..num_rows {
     //TODO: unhard code this - should be based on timing parameters.
-    file.write_all(b"  |           |           |           |         ")?;
+    file.write_all(b"   |           |           |           |         ")?;
     for _ in 0..(measures_per_row - 1) { 
       file.write_all(b"  |           |           |           |")?;
     }
@@ -40,7 +42,7 @@ pub fn generate_template(save_file: &str) -> std::io::Result<()>{
     //For each string
     for open_note in standard_tuning.iter() {
       let mut line = String::new();
-      line.push(*open_note);
+      line.push_str(*open_note);
       line.push(MEASURE_SEPARATOR);
       for _ in 0..measures_per_row {
         for _ in 0..BEATS_PER_MEASURE {
@@ -60,12 +62,12 @@ pub fn generate_template(save_file: &str) -> std::io::Result<()>{
 }
 #[derive(Debug, Copy, Clone, Eq, PartialEq)]
 enum StringLetter {
-  e,
-  B,
-  G,
-  D,
-  A,
-  E
+  E4,
+  B3,
+  G3,
+  D3,
+  A2,
+  E2
 }
 
 #[derive(Debug, Clone, Eq, PartialEq)]
@@ -104,14 +106,18 @@ fn parse_file(file: &str) -> Result<Vec<Note>, std::io::Error> {
 
     println!("parsing line: {}", line);
 
-    let letter = match line.chars().nth(0) {
-      Some(c) => match c {
-        'e' => Some(StringLetter::e),
-        'B' => Some(StringLetter::B),
-        'G' => Some(StringLetter::G),
-        'D' => Some(StringLetter::D),
-        'A' => Some(StringLetter::A),
-        'E' => Some(StringLetter::E),
+    // let substr = &line[0..2];
+
+    //TODOD: for custom  instruments / arbitrary strings, this should read in any note 
+    // eg A1, C3, F#4. need to make the section for string name one unit wider
+    let letter = match line.chars().chunks(2).into_iter().next() {
+      Some(c) => match c.collect_tuple().unwrap() {
+        ('E','4') => Some(StringLetter::E4),
+        ('B','3') => Some(StringLetter::B3),
+        ('G','3') => Some(StringLetter::G3),
+        ('D','3') => Some(StringLetter::D3),
+        ('A','2') => Some(StringLetter::A2),
+        ('E','2') => Some(StringLetter::E2),
         _ => None
         },
       None => None
@@ -125,7 +131,7 @@ fn parse_file(file: &str) -> Result<Vec<Note>, std::io::Error> {
       //Found letter identifer at start of line - continue to parse line for notes
 
       //Seems to work, but don't understand well, not sure about how many copies are being made.
-      for (i, s) in line.chars().skip(BEAT_OFFSET as usize).chunks(3).into_iter().enumerate() {
+      for (i, s) in line.chars().skip(BEAT_OFFSET as usize).chunks(BEAT_WIDTH as usize).into_iter().enumerate() {
         //this gives the 3 char string that we can check for note
         let val: String = s.collect();
         println!("{}", val);
@@ -134,7 +140,6 @@ fn parse_file(file: &str) -> Result<Vec<Note>, std::io::Error> {
           if note_active {
             parsed_notes.push(Note::new(note_start, read_fret, note_length, letter));
             note_length = 1;
-            note_active = false;
           }
           //fret found! add note
           note_active = true;
@@ -162,15 +167,25 @@ fn parse_file(file: &str) -> Result<Vec<Note>, std::io::Error> {
 #[cfg(test)]
 mod tests {
   use super::*;
+
+  #[test]
+  fn gen_template_test() {
+    let gold_string = fs::read_to_string("./test/gold-template.txt").unwrap();
+    generate_template("./test/test-gen.txt").unwrap();
+    let generated_string = fs::read_to_string("./test/test-gen.txt").unwrap();
+
+    assert_eq!(gold_string, generated_string);
+  }
+
   #[test]
   fn parser_test() {
     let correct_notes = vec![
-      Note::new(4, 2, 1, StringLetter::G),
-      Note::new(0, 7, 6, StringLetter::A),
-      Note::new(6, 7, 2, StringLetter::A),
-      Note::new(8, 10, 3, StringLetter::A),
-      Note::new(11, 7, 3, StringLetter::A),
-      Note::new(14, 5, 2, StringLetter::A),
+      Note::new(4, 2, 1, StringLetter::G3),
+      Note::new(0, 7, 6, StringLetter::A2),
+      Note::new(6, 7, 2, StringLetter::A2),
+      Note::new(8, 10, 3, StringLetter::A2),
+      Note::new(11, 7, 3, StringLetter::A2),
+      Note::new(14, 5, 2, StringLetter::A2),
     ];
     
     let notes = parse_file("./test/seven-nation-army.txt").unwrap();

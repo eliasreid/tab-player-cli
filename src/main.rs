@@ -1,6 +1,6 @@
 use std::fs::File;
 use std::io::BufReader;
-use rodio::{Source, play_once};
+use rodio::{Source};
 
 use rodio::dynamic_mixer;
 use std::time::Duration;
@@ -33,11 +33,11 @@ fn main() {
 
   if args.is_present("generate-template") {
     let path = args.value_of("generate-template").unwrap();
-    parser::generate_template(path);
+    parser::generate_template(path).unwrap();
     return;
   } else if args.is_present("play-file") {
     let file = args.value_of("play-file").unwrap();
-    parser::play_file(file);
+    parser::play_file(file).unwrap();
   }
 
 
