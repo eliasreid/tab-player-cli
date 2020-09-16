@@ -5,13 +5,14 @@ use std::io::prelude::*;
 use itertools::Itertools;
 
 const BEAT_WIDTH: u32 = 3;
-const BEAT_OFFSET: u32 = 3;
+const BEAT_OFFSET: u32 = 4;
 const EMPTY_NOTE: &str = "--";
 ///TODO: Should be configurable
 const BEATS_PER_MEASURE: usize = 16;
 const MEASURE_SEPARATOR: char = '|';
 const NOTE_SEPARATOR: char = ' ';
 const HOLD_IDEN: &str = ">>";
+
 
 
 
@@ -22,18 +23,20 @@ pub fn generate_template(save_file: &str) -> std::io::Result<()>{
   let mut file = File::create(save_file)?;
 
   //TODO: configurable - should annotate if standard tuning?
-  let standard_tuning = ["E4", "B3", "G3", "D3", "A2", "E2"];
+  let standard_tuning = ["E4 ", "B3 ", "G3 ", "D3 ", "A2 ", "E2 "];
 
   //TODO: configurable.
   let measures_per_row: usize = 2;
   let num_rows: usize = 2;
 
   //TODO: unhard code this - should be based on timing parameters.
-  file.write_all(b"  1/4         2/4         3/4         4/4\n")?;
+  let rhythm_guide: &str = "|           |           |           |         ";
+
+  file.write_all(b"   1/4         2/4         3/4         4/4\n")?;
   
   for _ in 0..num_rows {
     //TODO: unhard code this - should be based on timing parameters.
-    file.write_all(b"   |           |           |           |         ")?;
+    file.write_all(b"    |           |           |           |         ")?;
     for _ in 0..(measures_per_row - 1) { 
       file.write_all(b"  |           |           |           |")?;
     }
