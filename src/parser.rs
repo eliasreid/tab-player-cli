@@ -13,9 +13,6 @@ const MEASURE_SEPARATOR: char = '|';
 const NOTE_SEPARATOR: char = ' ';
 const HOLD_IDEN: &str = ">>";
 
-
-
-
 //TODO: generate template should write to generic buffer instead of to a file directly
 
 pub fn generate_template(save_file: &str) -> std::io::Result<()>{
@@ -63,6 +60,9 @@ pub fn generate_template(save_file: &str) -> std::io::Result<()>{
 
   Ok(())
 }
+
+
+// Move types to player lib
 #[derive(Debug, Copy, Clone, Eq, PartialEq)]
 enum StringLetter {
   E4,
@@ -74,7 +74,7 @@ enum StringLetter {
 }
 
 #[derive(Debug, Clone, Eq, PartialEq)]
-struct Note {
+pub struct Note {
   start_beat: u32, //Rhythm wise, where does the note start - units of sixteenth note.
   fret: u32,
   length: u32,
@@ -92,14 +92,7 @@ impl Note {
   }
 }
 
-pub fn play_file(play_file: &str) -> std::io::Result<()> {
-  //First need to parse file into a format from which the notes can be applied to the samples
-  // that is, a vec of {fret, start_beat, length} for each string
-  let notes = parse_file(play_file)?;
-  Ok(())
-}
-
-fn parse_file(file: &str) -> Result<Vec<Note>, std::io::Error> {
+pub fn parse_file(file: &str) -> Result<Vec<Note>, std::io::Error> {
   let contents = fs::read_to_string(file)?;
 
   let mut parsed_notes: Vec<Note> =  Vec::new();

@@ -14,14 +14,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="abae24e2-2505-42ff-9612-5aa4efc43ca2" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/tab-synth.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/tab-synth.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Cargo.lock" beforeDir="false" afterPath="$PROJECT_DIR$/Cargo.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Cargo.toml" beforeDir="false" afterPath="$PROJECT_DIR$/Cargo.toml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/player/Cargo.toml" beforeDir="false" afterPath="$PROJECT_DIR$/player/Cargo.toml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/player/src/lib.rs" beforeDir="false" afterPath="$PROJECT_DIR$/player/src/lib.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.rs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/parser.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/parser.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/gold-template.txt" beforeDir="false" afterPath="$PROJECT_DIR$/test/gold-template.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/seven-nation-army.txt" beforeDir="false" afterPath="$PROJECT_DIR$/test/seven-nation-army.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,6 +50,9 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="org.rust.cargo.project.model.PROJECT_DISCOVERY" value="true" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
   </component>
   <component name="RunAnythingCache">
     <option name="myCommands">
@@ -60,11 +61,35 @@
       <command value="cargo build --release" />
       <command value="cargo run -- --generate-template" />
       <command value="cargo run -- generate-template" />
-      <command value="cargo build" />
       <command value="cargo test" />
+      <command value="cargo build" />
     </option>
   </component>
-  <component name="RunManager" selected="Cargo Command.test">
+  <component name="RunManager" selected="Cargo Command.Test tests::play_test">
+    <configuration name="Test tests::load" type="CargoCommandRunConfiguration" factoryName="Cargo Command" temporary="true">
+      <option name="channel" value="DEFAULT" />
+      <option name="command" value="test --package player --lib tests::load -- --exact" />
+      <option name="allFeatures" value="false" />
+      <option name="emulateTerminal" value="false" />
+      <option name="backtrace" value="SHORT" />
+      <option name="workingDirectory" value="file://$PROJECT_DIR$" />
+      <envs />
+      <method v="2">
+        <option name="CARGO.BUILD_TASK_PROVIDER" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Test tests::play_test" type="CargoCommandRunConfiguration" factoryName="Cargo Command" temporary="true">
+      <option name="channel" value="DEFAULT" />
+      <option name="command" value="test --package player --lib tests::play_test -- --ignored --exact" />
+      <option name="allFeatures" value="false" />
+      <option name="emulateTerminal" value="false" />
+      <option name="backtrace" value="SHORT" />
+      <option name="workingDirectory" value="file://$PROJECT_DIR$" />
+      <envs />
+      <method v="2">
+        <option name="CARGO.BUILD_TASK_PROVIDER" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="build" type="CargoCommandRunConfiguration" factoryName="Cargo Command" temporary="true">
       <option name="channel" value="DEFAULT" />
       <option name="command" value="build" />
@@ -103,9 +128,9 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Cargo Command.test" />
-        <item itemvalue="Cargo Command.test" />
-        <item itemvalue="Cargo Command.test" />
+        <item itemvalue="Cargo Command.Test tests::play_test" />
+        <item itemvalue="Cargo Command.build" />
+        <item itemvalue="Cargo Command.Test tests::load" />
         <item itemvalue="Cargo Command.test" />
         <item itemvalue="Cargo Command.test" />
       </list>
@@ -139,22 +164,30 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state width="1874" height="255" key="GridCell.Tab.0.bottom" timestamp="1600298398189">
+    <state x="443" y="100" width="1028" height="845" key="#Project_Structure" timestamp="1600298637191">
       <screen x="0" y="0" width="1920" height="1043" />
     </state>
-    <state width="1874" height="255" key="GridCell.Tab.0.bottom/0.0.1920.1043@0.0.1920.1043" timestamp="1600298398189" />
-    <state width="1874" height="255" key="GridCell.Tab.0.center" timestamp="1600298398186">
+    <state x="443" y="100" width="1028" height="845" key="#Project_Structure/0.0.1920.1043@0.0.1920.1043" timestamp="1600298637191" />
+    <state x="98" y="100" width="1724" height="845" key="DiffContextDialog" timestamp="1600299734397">
       <screen x="0" y="0" width="1920" height="1043" />
     </state>
-    <state width="1874" height="255" key="GridCell.Tab.0.center/0.0.1920.1043@0.0.1920.1043" timestamp="1600298398186" />
-    <state width="1874" height="255" key="GridCell.Tab.0.left" timestamp="1600298398184">
+    <state x="98" y="100" width="1724" height="845" key="DiffContextDialog/0.0.1920.1043@0.0.1920.1043" timestamp="1600299734397" />
+    <state width="1874" height="224" key="GridCell.Tab.0.bottom" timestamp="1600306075699">
       <screen x="0" y="0" width="1920" height="1043" />
     </state>
-    <state width="1874" height="255" key="GridCell.Tab.0.left/0.0.1920.1043@0.0.1920.1043" timestamp="1600298398184" />
-    <state width="1874" height="255" key="GridCell.Tab.0.right" timestamp="1600298398187">
+    <state width="1874" height="224" key="GridCell.Tab.0.bottom/0.0.1920.1043@0.0.1920.1043" timestamp="1600306075699" />
+    <state width="1874" height="224" key="GridCell.Tab.0.center" timestamp="1600306075698">
       <screen x="0" y="0" width="1920" height="1043" />
     </state>
-    <state width="1874" height="255" key="GridCell.Tab.0.right/0.0.1920.1043@0.0.1920.1043" timestamp="1600298398187" />
+    <state width="1874" height="224" key="GridCell.Tab.0.center/0.0.1920.1043@0.0.1920.1043" timestamp="1600306075698" />
+    <state width="1874" height="224" key="GridCell.Tab.0.left" timestamp="1600306075697">
+      <screen x="0" y="0" width="1920" height="1043" />
+    </state>
+    <state width="1874" height="224" key="GridCell.Tab.0.left/0.0.1920.1043@0.0.1920.1043" timestamp="1600306075697" />
+    <state width="1874" height="224" key="GridCell.Tab.0.right" timestamp="1600306075699">
+      <screen x="0" y="0" width="1920" height="1043" />
+    </state>
+    <state width="1874" height="224" key="GridCell.Tab.0.right/0.0.1920.1043@0.0.1920.1043" timestamp="1600306075699" />
     <state x="513" y="0" width="1411" height="693" key="dock-window-1" timestamp="1600297183079">
       <screen x="0" y="0" width="1920" height="1043" />
     </state>
@@ -163,14 +196,14 @@
       <screen x="0" y="0" width="1920" height="1043" />
     </state>
     <state x="206" y="193" width="1411" height="693" key="dock-window-2/0.0.1920.1043@0.0.1920.1043" timestamp="1600297183079" />
-    <state x="184" y="86" width="592" height="870" key="find.popup" timestamp="1600107467469">
+    <state x="184" y="86" width="620" height="870" key="find.popup" timestamp="1600305795679">
       <screen x="0" y="0" width="1920" height="1043" />
     </state>
-    <state x="184" y="86" width="592" height="870" key="find.popup/0.0.1920.1043@0.0.1920.1043" timestamp="1600107467469" />
-    <state x="142" y="238" width="672" height="677" key="run.anything.popup" timestamp="1600298394245">
+    <state x="184" y="86" width="620" height="870" key="find.popup/0.0.1920.1043@0.0.1920.1043" timestamp="1600305795679" />
+    <state x="142" y="238" width="672" height="677" key="run.anything.popup" timestamp="1600306075653">
       <screen x="0" y="0" width="1920" height="1043" />
     </state>
-    <state x="142" y="238" width="672" height="677" key="run.anything.popup/0.0.1920.1043@0.0.1920.1043" timestamp="1600298394245" />
+    <state x="142" y="238" width="672" height="677" key="run.anything.popup/0.0.1920.1043@0.0.1920.1043" timestamp="1600306075653" />
     <state x="143" y="229" width="672" height="678" key="search.everywhere.popup" timestamp="1600106431618">
       <screen x="0" y="0" width="1920" height="1043" />
     </state>

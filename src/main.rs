@@ -31,7 +31,7 @@ fn main() {
     return;
   } else if args.is_present("play-file") {
     let file = args.value_of("play-file").unwrap();
-    parser::play_file(file).unwrap();
+    parser::parse_file(file).unwrap();
   }
 
 

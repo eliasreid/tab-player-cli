@@ -5,24 +5,89 @@ use std::fs::File;
 
 use rodio::{Source};
 
-use pitch_calc::{LetterOctave};
+use pitch_calc::{LetterOctave, Letter};
 use pitch_calc::perc::Perc;
 
 use std::collections::HashMap;
 
-type SamplesLib = HashMap<LetterOctave, Buffered<Decoder<BufReader<File>>>>;
+type SampleData = (LetterOctave, Buffered<Decoder<BufReader<File>>>);
 
-//Load samples into some mode global hashmap of letter values to 
-pub fn load_samples() -> SamplesLib {
-  let mut samples_lib = HashMap::new();
+fn load_samples() -> Vec<SampleData> {
+  let mut samples_lib = Vec::new();
 
-  //Load each file, create hashmap entry.
-
+  let file = File::open("./assets/electric-guitar/e2d.wav").unwrap();
+  let source = rodio::Decoder::new(BufReader::new(file)).unwrap().buffered();
+  samples_lib.push((LetterOctave(Letter::E, 2), source));
+  let file = File::open("./assets/electric-guitar/f#2d.wav").unwrap();
+  let source = rodio::Decoder::new(BufReader::new(file)).unwrap().buffered();
+  samples_lib.push((LetterOctave(Letter::Fsh, 2), source));
+  let file = File::open("./assets/electric-guitar/g#2d.wav").unwrap();
+  let source = rodio::Decoder::new(BufReader::new(file)).unwrap().buffered();
+  samples_lib.push((LetterOctave(Letter::Gsh, 2), source));
+  let file = File::open("./assets/electric-guitar/a#2d.wav").unwrap();
+  let source = rodio::Decoder::new(BufReader::new(file)).unwrap().buffered();
+  samples_lib.push((LetterOctave(Letter::Ash, 2), source));
+  let file = File::open("./assets/electric-guitar/c3d.wav").unwrap();
+  let source = rodio::Decoder::new(BufReader::new(file)).unwrap().buffered();
+  samples_lib.push((LetterOctave(Letter::C, 3), source));
+  let file = File::open("./assets/electric-guitar/d3d.wav").unwrap();
+  let source = rodio::Decoder::new(BufReader::new(file)).unwrap().buffered();
+  samples_lib.push((LetterOctave(Letter::D, 3), source));
+  let file = File::open("./assets/electric-guitar/e3d.wav").unwrap();
+  let source = rodio::Decoder::new(BufReader::new(file)).unwrap().buffered();
+  samples_lib.push((LetterOctave(Letter::E, 3), source));
+  let file = File::open("./assets/electric-guitar/f#3d.wav").unwrap();
+  let source = rodio::Decoder::new(BufReader::new(file)).unwrap().buffered();
+  samples_lib.push((LetterOctave(Letter::Fsh, 3), source));
+  let file = File::open("./assets/electric-guitar/g#3d.wav").unwrap();
+  let source = rodio::Decoder::new(BufReader::new(file)).unwrap().buffered();
+  samples_lib.push((LetterOctave(Letter::Gsh, 3), source));
+  let file = File::open("./assets/electric-guitar/c4d.wav").unwrap();
+  let source = rodio::Decoder::new(BufReader::new(file)).unwrap().buffered();
+  samples_lib.push((LetterOctave(Letter::C, 4), source));
+  let file = File::open("./assets/electric-guitar/d4d.wav").unwrap();
+  let source = rodio::Decoder::new(BufReader::new(file)).unwrap().buffered();
+  samples_lib.push((LetterOctave(Letter::D, 4), source));
+  let file = File::open("./assets/electric-guitar/e4d.wav").unwrap();
+  let source = rodio::Decoder::new(BufReader::new(file)).unwrap().buffered();
+  samples_lib.push((LetterOctave(Letter::E, 4), source));
+  let file = File::open("./assets/electric-guitar/f#4d.wav").unwrap();
+  let source = rodio::Decoder::new(BufReader::new(file)).unwrap().buffered();
+  samples_lib.push((LetterOctave(Letter::Fsh, 4), source));
+  let file = File::open("./assets/electric-guitar/g#4d.wav").unwrap();
+  let source = rodio::Decoder::new(BufReader::new(file)).unwrap().buffered();
+  samples_lib.push((LetterOctave(Letter::Gsh, 4), source));
+  let file = File::open("./assets/electric-guitar/c5d.wav").unwrap();
+  let source = rodio::Decoder::new(BufReader::new(file)).unwrap().buffered();
+  samples_lib.push((LetterOctave(Letter::C, 5), source));
+  let file = File::open("./assets/electric-guitar/d5d.wav").unwrap();
+  let source = rodio::Decoder::new(BufReader::new(file)).unwrap().buffered();
+  samples_lib.push((LetterOctave(Letter::D, 5), source));
+  let file = File::open("./assets/electric-guitar/e5d.wav").unwrap();
+  let source = rodio::Decoder::new(BufReader::new(file)).unwrap().buffered();
+  samples_lib.push((LetterOctave(Letter::E, 5), source));
+  let file = File::open("./assets/electric-guitar/f#5d.wav").unwrap();
+  let source = rodio::Decoder::new(BufReader::new(file)).unwrap().buffered();
+  samples_lib.push((LetterOctave(Letter::Fsh, 5), source));
+  let file = File::open("./assets/electric-guitar/g#5d.wav").unwrap();
+  let source = rodio::Decoder::new(BufReader::new(file)).unwrap().buffered();
+  samples_lib.push((LetterOctave(Letter::Gsh, 5), source));
+  let file = File::open("./assets/electric-guitar/c6d.wav").unwrap();
+  let source = rodio::Decoder::new(BufReader::new(file)).unwrap().buffered();
+  samples_lib.push((LetterOctave(Letter::C, 6), source));
   
 
   samples_lib
 }
 
+//How will I pass in the note data - structure that will be output by parser.
+
+//For each "note":
+// note (letter octave, parser can handle converting open string + fret to actual note value)
+// beat index (integer number that can be multiplied by arbitrary bpm)
+// note length (same units as index)
+
+// pub fn play_track(track: Vec<>)
 
 
 
@@ -30,11 +95,36 @@ pub fn load_samples() -> SamplesLib {
 mod tests {
   use super::*;
 
+  //put together notes to be played, play them
+  #[ignore]
   #[test]
-  fn pitches() {
+  fn play_test () {
+    //load lib,
+    let lib = load_samples();
+    //initialize data structure of thing I want to play...
 
   }
 
+  //Loads samples from disk, and plays each of them 1 second apart.
+  //should hear all the distinct notes
+  #[ignore]
+  #[test]
+  fn load() {
+    let lib = load_samples();
+
+    let device = rodio::default_output_device().unwrap();
+    let (controller, mixer) =
+      dynamic_mixer::mixer(1, 44_100);
+
+    for (i, sample_data) in lib.iter().enumerate() {
+      controller.add(sample_data.1.clone().delay(Duration::from_secs(i as u64)));
+    }
+
+    rodio::play_raw(&device, mixer.convert_samples());
+    std::thread::sleep(Duration::from_secs(25));
+  }
+
+  #[ignore]
   #[test]
   fn playground() {
     let device = rodio::default_output_device().unwrap();
