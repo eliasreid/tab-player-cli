@@ -80,8 +80,6 @@ fn load_samples() -> Vec<SampleData> {
   samples_lib
 }
 
-//How will I pass in the note data - structure that will be output by parser.
-
 //For each "note":
 // note (letter octave, parser can handle converting open string + fret to actual note value)
 // beat index (integer number that can be multiplied by arbitrary bpm)
@@ -117,37 +115,35 @@ pub fn play_track(track: Vec<Note>, bpm: f32){
     dynamic_mixer::mixer(1, 44_100);
 
   controller.add(samples[0].1.clone());
-  // beat x, y beats per minute
-
-  // x / y = z minutes
-  //z * 60000 = z' ms
-
   let beat_dur = Duration::from_millis((60000 as f32 / bpm) as u64);
 
   for note in track.iter() {
     println!("note: {:?}", note.note);
-    //how to go from beats per minute, to a constant that can be multiple by beat index?
+    let mut match_index: Option<usize> = None;
+    for (i, sample) in samples.iter().rev().enumerate() {
 
-    //find note that matches
-    //add sample that matches the given note
-    let mut found_match = false;
-    for sample in samples.iter() {
-      if note.note == sample.0 {
-        found_match = true;
-        controller.add(sample.1.clone().delay(note.beat_index * beat_dur));
+      if sample.0 <= note.note {
+        match_index = Some(i);
+        let step_diff = note.note.step() - sample.0.step();
+
+        let speed = (2 as f32).powf(step_diff / 12.);
+        controller.add(
+          sample.1.clone()
+            .speed(speed)
+            .delay(note.beat_index as u32 * beat_dur)
+            // .take_duration(Duration::from_secs(1))
+        );
+        println!("match is  {:?}. playing sample at {}%", sample.0, speed * 100.);
+        break;
       }
     }
-    if found_match {
-      println!("found matching note for {:?}", note.note);
-    } else {
-      println!("note not founds for {:?}", note.note);
+    if match_index == None {
+      panic!("note is not valid, lower than lowest sample! {:?}", note.note);
     }
 
-    // controller.add()
   }
+  //Function does not block -> need to sleep after call
   rodio::play_raw(&device, mixer.convert_samples());
-
-
 }
 
 
@@ -157,19 +153,44 @@ mod tests {
   use super::*;
   use pitch_calc::letter::Letter::*;
 
+  #[ignore]
+  #[test]
+  fn pitch_math() {
+
+    //how to get the difference in semitones? I think that will tell me how much to speed up
+
+    let note_e = LetterOctave(E, 3);
+    let note_d = LetterOctave(D, 3);
+
+    let diff = note_e - note_d;
+    println!("LetterOctave difference is {:?}", diff);
+    let diff = note_e.hz() - note_d.hz();
+    println!("hz difference is {:?}", diff);
+    let diff = note_e.step() - note_d.step();
+    println!("step diff is {:?}", diff);
+
+    println!("e perc: {:?}, scaled: {:?} \nd perc: {:?} , scaled: {:?}",
+      note_e.perc(), note_e.scaled_perc(), note_d.perc(), note_d.scaled_perc()
+    );
+
+    println!("perc ratio: {:?}", note_e.perc() / note_d.perc());
+    println!("perc scaled ratio: {:?}", note_e.scaled_perc() / note_d.scaled_perc());
+
+  }
+
+
   //put together notes to be played, play them
   #[ignore]
   #[test]
   fn play_test () {
-    //initialize data structure of thing I want to play...
     let mut note_vec = vec![
       Note::new(LetterOctave(E, 2), 0, 1),
-      Note::new(LetterOctave(D, 3), 1, 1),
-      Note::new(LetterOctave(E, 3), 2, 1),
+      Note::new(LetterOctave(G, 2), 1, 1),
+      Note::new(LetterOctave(E, 2), 2, 1),
     ];
 
     play_track(note_vec, 100.);
-    std::thread::sleep(Duration::from_secs(10));
+    std::thread::sleep(Duration::from_secs(5));
   }
 
   //Loads samples from disk, and plays each of them 1 second apart.
@@ -211,17 +232,22 @@ mod tests {
     //Note length entil I figure something else out - take_duration will do
     //Pitch modification - probably better to not get too fancy, just speed up the samples appropriately.
 
-    controller.add(
-      e2source.clone()
-      .speed(2.)
-      .take_duration(Duration::from_secs(1))
-    );
+    //calculate speed to tranpose E to G#
+
+
+    // println!("speed is {:?}", speed);
 
     controller.add(
       e2source.clone()
-      .speed(1.5)
-      // .take_duration(std::time::Duration::from_secs(1))
+      // .speed(speed)
+      .take_duration(Duration::from_secs(1))
     );
+
+    // s = 2t/12 - 2 to pwoer of t / 12
+    //t is # semittones, s is playback speed
+
+
+    //Try transposing
 
     // controller.add(source1.clone().delay(std::time::Duration::from_secs(2)));
 
@@ -242,7 +268,7 @@ mod tests {
     //store source in buffer, in addition to returning it
     let source2 = rodio::Decoder::new(BufReader::new(file2)).unwrap().buffered();
   
-    // controller.add(source2.clone().delay(Duration::from_millis(100)).amplify(0.3));
+    controller.add(source2.clone().delay(Duration::from_secs(1)));
     //then for each soure (instrument, file. eg. snare drum), they iterate over the steps
     //source.clone.amplify.delay
     //delay is what allows to add subsequently
