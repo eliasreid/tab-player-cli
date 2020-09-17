@@ -87,22 +87,89 @@ fn load_samples() -> Vec<SampleData> {
 // beat index (integer number that can be multiplied by arbitrary bpm)
 // note length (same units as index)
 
-// pub fn play_track(track: Vec<>)
+pub struct Note {
+  note: LetterOctave,
+  //for now, 16th notes, but can be more flexible.
+  beat_index: u32,
+  beat_length: u32
+}
+
+impl Note {
+  pub fn new(note: LetterOctave, beat_index: u32, beat_length: u32) -> Note {
+    Note {
+      note: note,
+      beat_index: beat_index,
+      beat_length: beat_length,
+    }
+  }
+}
+
+
+type BPM = f32;
+
+pub fn play_track(track: Vec<Note>, bpm: f32){
+  //to avoid loading the samples on each "play_track", could have a Player struct that
+  //holds the samples data, with member functions for playing things.
+  let samples = load_samples();
+
+  let device = rodio::default_output_device().unwrap();
+  let (controller, mixer) =
+    dynamic_mixer::mixer(1, 44_100);
+
+  controller.add(samples[0].1.clone());
+  // beat x, y beats per minute
+
+  // x / y = z minutes
+  //z * 60000 = z' ms
+
+  let beat_dur = Duration::from_millis((60000 as f32 / bpm) as u64);
+
+  for note in track.iter() {
+    println!("note: {:?}", note.note);
+    //how to go from beats per minute, to a constant that can be multiple by beat index?
+
+    //find note that matches
+    //add sample that matches the given note
+    let mut found_match = false;
+    for sample in samples.iter() {
+      if note.note == sample.0 {
+        found_match = true;
+        controller.add(sample.1.clone().delay(note.beat_index * beat_dur));
+      }
+    }
+    if found_match {
+      println!("found matching note for {:?}", note.note);
+    } else {
+      println!("note not founds for {:?}", note.note);
+    }
+
+    // controller.add()
+  }
+  rodio::play_raw(&device, mixer.convert_samples());
+
+
+}
 
 
 
 #[cfg(test)]
 mod tests {
   use super::*;
+  use pitch_calc::letter::Letter::*;
 
   //put together notes to be played, play them
   #[ignore]
   #[test]
   fn play_test () {
-    //load lib,
-    let lib = load_samples();
     //initialize data structure of thing I want to play...
+    let mut note_vec = vec![
+      Note::new(LetterOctave(E, 2), 0, 1),
+      Note::new(LetterOctave(D, 3), 1, 1),
+      Note::new(LetterOctave(E, 3), 2, 1),
+    ];
 
+    play_track(note_vec, 100.);
+    std::thread::sleep(Duration::from_secs(10));
   }
 
   //Loads samples from disk, and plays each of them 1 second apart.

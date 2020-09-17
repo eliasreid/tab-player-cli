@@ -14,12 +14,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="abae24e2-2505-42ff-9612-5aa4efc43ca2" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Cargo.lock" beforeDir="false" afterPath="$PROJECT_DIR$/Cargo.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/player/src/lib.rs" beforeDir="false" afterPath="$PROJECT_DIR$/player/src/lib.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/parser.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/parser.rs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -53,6 +49,7 @@
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
+    <property name="settings.editor.selected.configurable" value="preferences.sourceCode" />
   </component>
   <component name="RunAnythingCache">
     <option name="myCommands">
@@ -130,9 +127,9 @@
       <list>
         <item itemvalue="Cargo Command.Test tests::play_test" />
         <item itemvalue="Cargo Command.build" />
-        <item itemvalue="Cargo Command.Test tests::load" />
-        <item itemvalue="Cargo Command.test" />
-        <item itemvalue="Cargo Command.test" />
+        <item itemvalue="Cargo Command.build" />
+        <item itemvalue="Cargo Command.build" />
+        <item itemvalue="Cargo Command.build" />
       </list>
     </recent_temporary>
   </component>
@@ -172,22 +169,26 @@
       <screen x="0" y="0" width="1920" height="1043" />
     </state>
     <state x="98" y="100" width="1724" height="845" key="DiffContextDialog/0.0.1920.1043@0.0.1920.1043" timestamp="1600299734397" />
-    <state width="1874" height="224" key="GridCell.Tab.0.bottom" timestamp="1600306075699">
+    <state width="1874" height="339" key="GridCell.Tab.0.bottom" timestamp="1600309062985">
       <screen x="0" y="0" width="1920" height="1043" />
     </state>
-    <state width="1874" height="224" key="GridCell.Tab.0.bottom/0.0.1920.1043@0.0.1920.1043" timestamp="1600306075699" />
-    <state width="1874" height="224" key="GridCell.Tab.0.center" timestamp="1600306075698">
+    <state width="1874" height="339" key="GridCell.Tab.0.bottom/0.0.1920.1043@0.0.1920.1043" timestamp="1600309062985" />
+    <state width="1874" height="339" key="GridCell.Tab.0.center" timestamp="1600309062984">
       <screen x="0" y="0" width="1920" height="1043" />
     </state>
-    <state width="1874" height="224" key="GridCell.Tab.0.center/0.0.1920.1043@0.0.1920.1043" timestamp="1600306075698" />
-    <state width="1874" height="224" key="GridCell.Tab.0.left" timestamp="1600306075697">
+    <state width="1874" height="339" key="GridCell.Tab.0.center/0.0.1920.1043@0.0.1920.1043" timestamp="1600309062984" />
+    <state width="1874" height="339" key="GridCell.Tab.0.left" timestamp="1600309062983">
       <screen x="0" y="0" width="1920" height="1043" />
     </state>
-    <state width="1874" height="224" key="GridCell.Tab.0.left/0.0.1920.1043@0.0.1920.1043" timestamp="1600306075697" />
-    <state width="1874" height="224" key="GridCell.Tab.0.right" timestamp="1600306075699">
+    <state width="1874" height="339" key="GridCell.Tab.0.left/0.0.1920.1043@0.0.1920.1043" timestamp="1600309062983" />
+    <state width="1874" height="339" key="GridCell.Tab.0.right" timestamp="1600309062984">
       <screen x="0" y="0" width="1920" height="1043" />
     </state>
-    <state width="1874" height="224" key="GridCell.Tab.0.right/0.0.1920.1043@0.0.1920.1043" timestamp="1600306075699" />
+    <state width="1874" height="339" key="GridCell.Tab.0.right/0.0.1920.1043@0.0.1920.1043" timestamp="1600309062984" />
+    <state x="249" y="70" width="1342" height="929" key="SettingsEditor" timestamp="1600307152519">
+      <screen x="0" y="0" width="1920" height="1043" />
+    </state>
+    <state x="249" y="70" width="1342" height="929" key="SettingsEditor/0.0.1920.1043@0.0.1920.1043" timestamp="1600307152519" />
     <state x="513" y="0" width="1411" height="693" key="dock-window-1" timestamp="1600297183079">
       <screen x="0" y="0" width="1920" height="1043" />
     </state>
@@ -200,10 +201,10 @@
       <screen x="0" y="0" width="1920" height="1043" />
     </state>
     <state x="184" y="86" width="620" height="870" key="find.popup/0.0.1920.1043@0.0.1920.1043" timestamp="1600305795679" />
-    <state x="142" y="238" width="672" height="677" key="run.anything.popup" timestamp="1600306075653">
+    <state x="142" y="238" width="672" height="677" key="run.anything.popup" timestamp="1600308997826">
       <screen x="0" y="0" width="1920" height="1043" />
     </state>
-    <state x="142" y="238" width="672" height="677" key="run.anything.popup/0.0.1920.1043@0.0.1920.1043" timestamp="1600306075653" />
+    <state x="142" y="238" width="672" height="677" key="run.anything.popup/0.0.1920.1043@0.0.1920.1043" timestamp="1600308997826" />
     <state x="143" y="229" width="672" height="678" key="search.everywhere.popup" timestamp="1600106431618">
       <screen x="0" y="0" width="1920" height="1043" />
     </state>
