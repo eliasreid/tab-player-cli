@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="BranchesTreeState">
     <expand>
       <path>
@@ -16,6 +19,9 @@
     <list default="true" id="abae24e2-2505-42ff-9612-5aa4efc43ca2" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/player/src/lib.rs" beforeDir="false" afterPath="$PROJECT_DIR$/player/src/lib.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/parser.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/parser.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/seven-nation-army.txt" beforeDir="false" afterPath="$PROJECT_DIR$/test/seven-nation-army.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -58,14 +64,18 @@
       <command value="cargo build --release" />
       <command value="cargo run -- --generate-template" />
       <command value="cargo run -- generate-template" />
-      <command value="cargo test" />
+      <command value="cargo run -- -p" />
+      <command value="cargo run -- -g" />
+      <command value="cargo run -- " />
       <command value="cargo build" />
+      <command value="cargo test" />
+      <command value="cargo run -- -p ./test/seven-nation-army.txt" />
     </option>
   </component>
-  <component name="RunManager" selected="Cargo Command.Test tests::play_test">
-    <configuration name="Test tests::load" type="CargoCommandRunConfiguration" factoryName="Cargo Command" temporary="true">
+  <component name="RunManager" selected="Cargo Command.run">
+    <configuration name="Test parser::tests::parser_test" type="CargoCommandRunConfiguration" factoryName="Cargo Command" temporary="true">
       <option name="channel" value="DEFAULT" />
-      <option name="command" value="test --package player --lib tests::load -- --exact" />
+      <option name="command" value="test --package tab-synth --bin tab-synth parser::tests::parser_test -- --exact" />
       <option name="allFeatures" value="false" />
       <option name="emulateTerminal" value="false" />
       <option name="backtrace" value="SHORT" />
@@ -87,9 +97,9 @@
         <option name="CARGO.BUILD_TASK_PROVIDER" enabled="true" />
       </method>
     </configuration>
-    <configuration name="build" type="CargoCommandRunConfiguration" factoryName="Cargo Command" temporary="true">
+    <configuration name="Test tests::playground" type="CargoCommandRunConfiguration" factoryName="Cargo Command" temporary="true">
       <option name="channel" value="DEFAULT" />
-      <option name="command" value="build" />
+      <option name="command" value="test --package player --lib tests::playground -- --ignored --exact" />
       <option name="allFeatures" value="false" />
       <option name="emulateTerminal" value="false" />
       <option name="backtrace" value="SHORT" />
@@ -101,7 +111,7 @@
     </configuration>
     <configuration name="run" type="CargoCommandRunConfiguration" factoryName="Cargo Command" temporary="true">
       <option name="channel" value="DEFAULT" />
-      <option name="command" value="run -- generate-template" />
+      <option name="command" value="run -- -p ./test/seven-nation-army.txt" />
       <option name="allFeatures" value="false" />
       <option name="emulateTerminal" value="false" />
       <option name="backtrace" value="SHORT" />
@@ -125,11 +135,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Cargo Command.Test tests::play_test" />
-        <item itemvalue="Cargo Command.build" />
-        <item itemvalue="Cargo Command.build" />
-        <item itemvalue="Cargo Command.build" />
-        <item itemvalue="Cargo Command.build" />
+        <item itemvalue="Cargo Command.run" />
+        <item itemvalue="Cargo Command.test" />
+        <item itemvalue="Cargo Command.test" />
+        <item itemvalue="Cargo Command.Test parser::tests::parser_test" />
+        <item itemvalue="Cargo Command.run" />
       </list>
     </recent_temporary>
   </component>
@@ -165,30 +175,42 @@
       <screen x="0" y="0" width="1920" height="1043" />
     </state>
     <state x="443" y="100" width="1028" height="845" key="#Project_Structure/0.0.1920.1043@0.0.1920.1043" timestamp="1600298637191" />
+    <state x="98" y="100" width="1724" height="845" key="#com.intellij.execution.junit2.states.ComparisonFailureState$DiffDialog" timestamp="1600391148368">
+      <screen x="0" y="0" width="1920" height="1043" />
+    </state>
+    <state x="98" y="100" width="1724" height="845" key="#com.intellij.execution.junit2.states.ComparisonFailureState$DiffDialog/0.0.1920.1043@0.0.1920.1043" timestamp="1600391148368" />
+    <state x="768" y="241" width="378" height="562" key="#com.intellij.ide.util.MemberChooser" timestamp="1600376805257">
+      <screen x="0" y="0" width="1920" height="1043" />
+    </state>
+    <state x="768" y="241" width="378" height="562" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1043@0.0.1920.1043" timestamp="1600376805257" />
     <state x="98" y="100" width="1724" height="845" key="DiffContextDialog" timestamp="1600299734397">
       <screen x="0" y="0" width="1920" height="1043" />
     </state>
     <state x="98" y="100" width="1724" height="845" key="DiffContextDialog/0.0.1920.1043@0.0.1920.1043" timestamp="1600299734397" />
-    <state width="1874" height="339" key="GridCell.Tab.0.bottom" timestamp="1600309062985">
+    <state width="1874" height="348" key="GridCell.Tab.0.bottom" timestamp="1600392956851">
       <screen x="0" y="0" width="1920" height="1043" />
     </state>
-    <state width="1874" height="339" key="GridCell.Tab.0.bottom/0.0.1920.1043@0.0.1920.1043" timestamp="1600309062985" />
-    <state width="1874" height="339" key="GridCell.Tab.0.center" timestamp="1600309062984">
+    <state width="1874" height="348" key="GridCell.Tab.0.bottom/0.0.1920.1043@0.0.1920.1043" timestamp="1600392956851" />
+    <state width="1874" height="348" key="GridCell.Tab.0.center" timestamp="1600392956850">
       <screen x="0" y="0" width="1920" height="1043" />
     </state>
-    <state width="1874" height="339" key="GridCell.Tab.0.center/0.0.1920.1043@0.0.1920.1043" timestamp="1600309062984" />
-    <state width="1874" height="339" key="GridCell.Tab.0.left" timestamp="1600309062983">
+    <state width="1874" height="348" key="GridCell.Tab.0.center/0.0.1920.1043@0.0.1920.1043" timestamp="1600392956850" />
+    <state width="1874" height="348" key="GridCell.Tab.0.left" timestamp="1600392956849">
       <screen x="0" y="0" width="1920" height="1043" />
     </state>
-    <state width="1874" height="339" key="GridCell.Tab.0.left/0.0.1920.1043@0.0.1920.1043" timestamp="1600309062983" />
-    <state width="1874" height="339" key="GridCell.Tab.0.right" timestamp="1600309062984">
+    <state width="1874" height="348" key="GridCell.Tab.0.left/0.0.1920.1043@0.0.1920.1043" timestamp="1600392956849" />
+    <state width="1874" height="348" key="GridCell.Tab.0.right" timestamp="1600392956850">
       <screen x="0" y="0" width="1920" height="1043" />
     </state>
-    <state width="1874" height="339" key="GridCell.Tab.0.right/0.0.1920.1043@0.0.1920.1043" timestamp="1600309062984" />
+    <state width="1874" height="348" key="GridCell.Tab.0.right/0.0.1920.1043@0.0.1920.1043" timestamp="1600392956850" />
     <state x="249" y="70" width="1342" height="929" key="SettingsEditor" timestamp="1600307152519">
       <screen x="0" y="0" width="1920" height="1043" />
     </state>
     <state x="249" y="70" width="1342" height="929" key="SettingsEditor/0.0.1920.1043@0.0.1920.1043" timestamp="1600307152519" />
+    <state width="498" height="446" key="SwitcherDM" timestamp="1600375853048">
+      <screen x="0" y="0" width="1920" height="1043" />
+    </state>
+    <state width="498" height="446" key="SwitcherDM/0.0.1920.1043@0.0.1920.1043" timestamp="1600375853048" />
     <state x="513" y="0" width="1411" height="693" key="dock-window-1" timestamp="1600297183079">
       <screen x="0" y="0" width="1920" height="1043" />
     </state>
@@ -197,17 +219,17 @@
       <screen x="0" y="0" width="1920" height="1043" />
     </state>
     <state x="206" y="193" width="1411" height="693" key="dock-window-2/0.0.1920.1043@0.0.1920.1043" timestamp="1600297183079" />
-    <state x="184" y="86" width="620" height="870" key="find.popup" timestamp="1600305795679">
+    <state x="184" y="86" width="620" height="870" key="find.popup" timestamp="1600377593855">
       <screen x="0" y="0" width="1920" height="1043" />
     </state>
-    <state x="184" y="86" width="620" height="870" key="find.popup/0.0.1920.1043@0.0.1920.1043" timestamp="1600305795679" />
-    <state x="142" y="238" width="672" height="677" key="run.anything.popup" timestamp="1600308997826">
+    <state x="184" y="86" width="620" height="870" key="find.popup/0.0.1920.1043@0.0.1920.1043" timestamp="1600377593855" />
+    <state x="142" y="238" width="672" height="677" key="run.anything.popup" timestamp="1600392956807">
       <screen x="0" y="0" width="1920" height="1043" />
     </state>
-    <state x="142" y="238" width="672" height="677" key="run.anything.popup/0.0.1920.1043@0.0.1920.1043" timestamp="1600308997826" />
-    <state x="143" y="229" width="672" height="678" key="search.everywhere.popup" timestamp="1600106431618">
+    <state x="142" y="238" width="672" height="677" key="run.anything.popup/0.0.1920.1043@0.0.1920.1043" timestamp="1600392956807" />
+    <state x="143" y="229" width="672" height="678" key="search.everywhere.popup" timestamp="1600392874124">
       <screen x="0" y="0" width="1920" height="1043" />
     </state>
-    <state x="143" y="229" width="672" height="678" key="search.everywhere.popup/0.0.1920.1043@0.0.1920.1043" timestamp="1600106431618" />
+    <state x="143" y="229" width="672" height="678" key="search.everywhere.popup/0.0.1920.1043@0.0.1920.1043" timestamp="1600392874124" />
   </component>
 </project>

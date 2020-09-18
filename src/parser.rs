@@ -4,6 +4,9 @@ use std::io::prelude::*;
 
 use itertools::Itertools;
 
+use player::{Note, LetterOctave, Letter};
+use player;
+
 const BEAT_WIDTH: u32 = 3;
 const BEAT_OFFSET: u32 = 4;
 const EMPTY_NOTE: &str = "--";
@@ -27,8 +30,6 @@ pub fn generate_template(save_file: &str) -> std::io::Result<()>{
   let num_rows: usize = 2;
 
   //TODO: unhard code this - should be based on timing parameters.
-  let rhythm_guide: &str = "|           |           |           |         ";
-
   file.write_all(b"   1/4         2/4         3/4         4/4\n")?;
   
   for _ in 0..num_rows {
@@ -62,36 +63,6 @@ pub fn generate_template(save_file: &str) -> std::io::Result<()>{
 }
 
 
-// Move types to player lib
-#[derive(Debug, Copy, Clone, Eq, PartialEq)]
-enum StringLetter {
-  E4,
-  B3,
-  G3,
-  D3,
-  A2,
-  E2
-}
-
-#[derive(Debug, Clone, Eq, PartialEq)]
-pub struct Note {
-  start_beat: u32, //Rhythm wise, where does the note start - units of sixteenth note.
-  fret: u32,
-  length: u32,
-  string: StringLetter
-}
-
-impl Note {
-  fn new(start_beat: u32, fret: u32, length: u32, string: StringLetter) -> Note {
-    Note{
-      start_beat: start_beat,
-      fret: fret,
-      length: length,
-      string: string
-    }
-  }
-}
-
 pub fn parse_file(file: &str) -> Result<Vec<Note>, std::io::Error> {
   let contents = fs::read_to_string(file)?;
 
@@ -102,39 +73,21 @@ pub fn parse_file(file: &str) -> Result<Vec<Note>, std::io::Error> {
 
     println!("parsing line: {}", line);
 
-    // let substr = &line[0..2];
-
-    //TODOD: for custom  instruments / arbitrary strings, this should read in any note 
-    // eg A1, C3, F#4. need to make the section for string name one unit wider
-    let letter = match line.chars().chunks(2).into_iter().next() {
-      Some(c) => match c.collect_tuple().unwrap() {
-        ('E','4') => Some(StringLetter::E4),
-        ('B','3') => Some(StringLetter::B3),
-        ('G','3') => Some(StringLetter::G3),
-        ('D','3') => Some(StringLetter::D3),
-        ('A','2') => Some(StringLetter::A2),
-        ('E','2') => Some(StringLetter::E2),
-        _ => None
-        },
-      None => None
-    };
     let mut note_active = false;
     let mut read_fret: u32 = 0;
     let mut note_start: u32 = 0;
     let mut note_length: u32 = 1;
-
-    if let Some(letter) = letter {
-      //Found letter identifer at start of line - continue to parse line for notes
-
-      //Seems to work, but don't understand well, not sure about how many copies are being made.
+    if let Some(open_note) = parse_note_name(&line.chars().take(3).collect::<String>()) {
+      //found a note name for this line
       for (i, s) in line.chars().skip(BEAT_OFFSET as usize).chunks(BEAT_WIDTH as usize).into_iter().enumerate() {
-        //this gives the 3 char string that we can check for note
+        //this gives the 3 char string that we can check for identifier
         let val: String = s.collect();
-        println!("{}", val);
         if let Ok(fret) = val.trim().parse::<u32>() {
 
           if note_active {
-            parsed_notes.push(Note::new(note_start, read_fret, note_length, letter));
+            //could convert to step, then convert back to letter octave
+            let note = open_note.to_step() + (read_fret as f32).into();
+            parsed_notes.push(Note::new(note.into(), note_start, note_length));
             note_length = 1;
           }
           //fret found! add note
@@ -142,27 +95,83 @@ pub fn parse_file(file: &str) -> Result<Vec<Note>, std::io::Error> {
           read_fret = fret;
           //TODO: add offset to i for row
           note_start = i as u32;
-
-          println!("index {}, fret {}", i, fret);
         } else if note_active && val.contains(HOLD_IDEN) {
           note_length += 1;
-          //Don't need to do anything? 
+          //Don't need to do anything?
         } else if note_active && val.contains(EMPTY_NOTE){
-          parsed_notes.push(Note::new(note_start, read_fret, note_length, letter));
+          let note = open_note.to_step() + (read_fret as f32).into();
+          parsed_notes.push(Note::new(note.into(), note_start, note_length));
           note_length = 1;
           note_active = false;
         }
       }
     }
-    
+
+
+
   }
 
   Ok(parsed_notes)
 }
 
+fn parse_note_name(string: &str) -> Option<LetterOctave> {
+  let string = string.chars().collect_vec();
+  if string.len() > 3 || string.len() < 2 {
+    return None;
+  }
+
+  let base_letter = match string[0] {
+    'A' | 'a' => Letter::A,
+    'B' | 'b' => Letter::B,
+    'C' | 'c' => Letter::C,
+    'D' | 'd' => Letter::D,
+    'E' | 'e' => Letter::E,
+    'F' | 'f' => Letter::F,
+    'G' | 'g' => Letter::G,
+     _  => return None
+  };
+
+  if let Some(octave) = string[1].to_digit(10) {
+    //simple case, letter followed by number
+    return Some(LetterOctave(base_letter, octave as i32));
+  }
+  //Make sure string is long enough to have an accidental
+  if string.len() == 3 {
+    if let Some(octave) = string[2].to_digit(10) {
+      return match string[1] {
+        '♭' | 'b' => Some(LetterOctave(base_letter - 1, octave as i32)),
+        '♯' | '#' => Some(LetterOctave(base_letter + 1, octave as i32)),
+        _ => None,
+      };
+    }
+  }
+  None
+}
+
 #[cfg(test)]
 mod tests {
   use super::*;
+
+  #[test]
+  fn letteroctave_from_string() {
+    use Letter::*;
+    assert_eq!(parse_note_name("E4").unwrap(), LetterOctave(E, 4));
+    assert_eq!(parse_note_name("E#4").unwrap(), LetterOctave(F, 4));
+    assert_eq!(parse_note_name("Cb4").unwrap(), LetterOctave(B, 4));
+
+    assert_eq!(parse_note_name("A2").unwrap(), LetterOctave(A,2));
+    assert_eq!(parse_note_name("F8").unwrap(), LetterOctave(F, 8));
+    assert_eq!(parse_note_name("C♯3").unwrap(), LetterOctave(Csh, 3));
+    assert_eq!(parse_note_name("C#3").unwrap(), LetterOctave(Csh, 3));
+    assert_eq!(parse_note_name("B♭3").unwrap(), LetterOctave(Bb, 3));
+    assert_eq!(parse_note_name("Bb3").unwrap(), LetterOctave(Bb, 3));
+    assert_eq!(parse_note_name("Bb3 "), None);
+    assert_eq!(parse_note_name("E"), None);
+    assert_eq!(parse_note_name("Ef"), None);
+    assert_eq!(parse_note_name("2f5"), None);
+    assert_eq!(parse_note_name("B#e"), None);
+    assert_eq!(parse_note_name("23"), None);
+  }
 
   #[test]
   fn gen_template_test() {
@@ -175,15 +184,20 @@ mod tests {
 
   #[test]
   fn parser_test() {
+    use Letter::*;
     let correct_notes = vec![
-      Note::new(4, 2, 1, StringLetter::G3),
-      Note::new(0, 7, 6, StringLetter::A2),
-      Note::new(6, 7, 2, StringLetter::A2),
-      Note::new(8, 10, 3, StringLetter::A2),
-      Note::new(11, 7, 3, StringLetter::A2),
-      Note::new(14, 5, 2, StringLetter::A2),
+      Note::new(LetterOctave(E, 3), 0, 6),
+      Note::new(LetterOctave(E, 3), 6, 2),
+      Note::new(LetterOctave(G, 3), 8, 3),
+      Note::new(LetterOctave(E, 3), 11, 3),
+      Note::new(LetterOctave(D, 3), 14, 2),
+
+      Note::new(LetterOctave(C, 3), 16, 8),
+      Note::new(LetterOctave(B, 2), 24, 8),
+
+
     ];
-    
+
     let notes = parse_file("./test/seven-nation-army.txt").unwrap();
     assert_eq!(notes, correct_notes);
   }
