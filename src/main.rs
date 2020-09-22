@@ -34,13 +34,12 @@ fn main() {
   if args.is_present("play-file") {
 
     let file = args.value_of("play-file").unwrap();
-
-
     let notes = parser::parse_file(file).unwrap();
-    println!("playing {:?}", notes);
-    player::play_track(notes, 500.);
-
-    std::thread::sleep(std::time::Duration::from_secs(30));
+    println!("playing notes:");
+    for note in notes.iter(){
+      println!("{:?}", note);
+    }
+    player::play_track(notes, 125.);
   }
 
 

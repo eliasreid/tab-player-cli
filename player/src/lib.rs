@@ -94,13 +94,10 @@ impl Note {
   }
 }
 
-type BPM = f32;
-
-//TODO: return a time so the caller knows how long to sleep?
-///Function does not block, need to sleep afterwards
-pub fn play_track(track: Vec<Note>, bpm: BPM){
+//Function blocks for enough time to play entire track
+pub fn play_track(track: Vec<Note>, bpm: f32){
   //shadow bpm to convert from quarter note beats to sixteenth note beats
-  let bpm = bpm * 16.;
+  let bpm = bpm * 4.;
   //to avoid loading the samples on each "play_track", could have a Player struct that
   //holds the samples data, with member functions for playing things.
   let samples = load_samples();
@@ -108,6 +105,8 @@ pub fn play_track(track: Vec<Note>, bpm: BPM){
   let device = rodio::default_output_device().unwrap();
   let (controller, mixer) =
     dynamic_mixer::mixer(1, 44_100);
+
+  let mut track_duration: u32 = 0;
 
   //TODO: BPM should be based on time signature.
   let beat_dur = Duration::from_millis((60000 as f32 / bpm) as u64);
@@ -125,6 +124,10 @@ pub fn play_track(track: Vec<Note>, bpm: BPM){
             .take_duration(beat_dur * note.beat_length)
             .delay(note.beat_index as u32 * beat_dur)
         );
+        let note_end = note.beat_index + note.beat_length;
+        if note_end > track_duration {
+          track_duration = note_end;
+        }
         break;
       }
     }
@@ -133,7 +136,9 @@ pub fn play_track(track: Vec<Note>, bpm: BPM){
     }
 
   }
+  let track_duration: Duration = beat_dur * track_duration;
   rodio::play_raw(&device, mixer.convert_samples());
+  std::thread::sleep(track_duration);
 }
 
 

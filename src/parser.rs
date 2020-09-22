@@ -150,7 +150,7 @@ pub fn parse_file(file: &str) -> Result<Vec<Note>, std::io::Error> {
 
   //Check if there's any other notes that didn't explicitly end
   for string_state in string_states.iter_mut() {
-    if let Some(note) = string_state.end_note(row_beat_offest + beats_in_line) {
+    if let Some(note) = string_state.end_note(row_beat_offest) {
       parsed_notes.push(note);
     }
   }
