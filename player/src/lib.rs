@@ -10,6 +10,9 @@ type SampleData = (LetterOctave, Buffered<Decoder<BufReader<File>>>);
 fn load_samples() -> Vec<SampleData> {
   let mut samples_lib = Vec::new();
 
+  //issue: need to specify full path relative to executing crate.
+  //Figure out how to just include the bytes (source says it's ok to use samples in projects, but not to redistribute)
+
   let file = File::open("./player/assets/electric-guitar/e2d.wav").unwrap();
   let source = rodio::Decoder::new(BufReader::new(file)).unwrap().buffered();
   samples_lib.push((LetterOctave(Letter::E, 2), source));
@@ -71,19 +74,12 @@ fn load_samples() -> Vec<SampleData> {
   let source = rodio::Decoder::new(BufReader::new(file)).unwrap().buffered();
   samples_lib.push((LetterOctave(Letter::C, 6), source));
   
-
   samples_lib
 }
 
-//For each "note":
-// note (letter octave, parser can handle converting open string + fret to actual note value)
-// beat index (integer number that can be multiplied by arbitrary bpm)
-// note length (same units as index)
-
 #[derive(Debug, Eq, PartialEq)]
 pub struct Note {
-  name: LetterOctave,
-  //for now, 16th notes, but can be more flexible.
+  pitch: LetterOctave,
   beat_index: u32,
   beat_length: u32
 }
@@ -91,7 +87,7 @@ pub struct Note {
 impl Note {
   pub fn new(note: LetterOctave, beat_index: u32, beat_length: u32) -> Note {
     Note {
-      name: note,
+      pitch: note,
       beat_index: beat_index,
       beat_length: beat_length,
     }
@@ -100,7 +96,11 @@ impl Note {
 
 type BPM = f32;
 
+//TODO: return a time so the caller knows how long to sleep?
+///Function does not block, need to sleep afterwards
 pub fn play_track(track: Vec<Note>, bpm: BPM){
+  //shadow bpm to convert from quarter note beats to sixteenth note beats
+  let bpm = bpm * 16.;
   //to avoid loading the samples on each "play_track", could have a Player struct that
   //holds the samples data, with member functions for playing things.
   let samples = load_samples();
@@ -109,35 +109,30 @@ pub fn play_track(track: Vec<Note>, bpm: BPM){
   let (controller, mixer) =
     dynamic_mixer::mixer(1, 44_100);
 
-  // controller.add(samples[0].1.clone());
+  //TODO: BPM should be based on time signature.
   let beat_dur = Duration::from_millis((60000 as f32 / bpm) as u64);
-  println!("beat duration: {:?}, from bpm {}", beat_dur, bpm);
 
   for note in track.iter() {
-    println!("note: {:?}", note.name);
     let mut match_index: Option<usize> = None;
     for (i, sample) in samples.iter().rev().enumerate() {
-
-      if sample.0 <= note.name {
+      if sample.0 <= note.pitch {
         match_index = Some(i);
-        let step_diff = note.name.step() - sample.0.step();
-
+        let step_diff = note.pitch.step() - sample.0.step();
         let speed = (2 as f32).powf(step_diff / 12.);
         controller.add(
           sample.1.clone()
             .speed(speed)
+            .take_duration(beat_dur * note.beat_length)
             .delay(note.beat_index as u32 * beat_dur)
-            // .take_duration(Duration::from_secs(1))
         );
         break;
       }
     }
     if match_index == None {
-      panic!("note is not valid, lower than lowest sample! {:?}", note.name);
+      panic!("note is not valid, lower than lowest sample! {:?}", note.pitch);
     }
 
   }
-  //Function does not block -> need to sleep after call
   rodio::play_raw(&device, mixer.convert_samples());
 }
 
@@ -152,7 +147,7 @@ mod tests {
   #[ignore]
   #[test]
   fn play_test () {
-    let mut note_vec = vec![
+    let note_vec = vec![
       Note::new(LetterOctave(E, 2), 0, 1),
       Note::new(LetterOctave(G, 2), 1, 1),
       Note::new(LetterOctave(E, 2), 2, 1),

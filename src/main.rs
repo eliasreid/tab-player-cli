@@ -38,9 +38,9 @@ fn main() {
 
     let notes = parser::parse_file(file).unwrap();
     println!("playing {:?}", notes);
-    player::play_track(notes, 400.);
+    player::play_track(notes, 500.);
 
-    std::thread::sleep(std::time::Duration::from_secs(10));
+    std::thread::sleep(std::time::Duration::from_secs(30));
   }
 
 
