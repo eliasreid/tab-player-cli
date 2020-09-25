@@ -159,7 +159,6 @@ mod tests {
     ];
 
     play_track(note_vec, 100.);
-    std::thread::sleep(Duration::from_secs(10));
   }
 }
 
