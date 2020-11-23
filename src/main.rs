@@ -5,10 +5,9 @@ mod parser;
 use player;
 
 fn main() {
-  
-  let args = App::new("tab-synth")
+  let args = App::new("tab-player-cli")
     .version("0.1")
-    .about("WIP - play tabs from cli eventually..")
+    .about("Play guitar tabs from the command line!")
     .arg(Arg::with_name("generate-template")
            .short("g")
            .long("generate-template")
@@ -26,8 +25,6 @@ fn main() {
            .required(true))
     .get_matches();
 
-  //If --generate-template, then generate a template
-
   if args.is_present("generate-template") {
     let path = args.value_of("generate-template").unwrap();
     println!("generating file at: {}", path);
@@ -35,15 +32,11 @@ fn main() {
   }
 
   if args.is_present("play-file") {
-
     let values: Vec<&str> = args.values_of("play-file").unwrap().collect();
     let tab_file = values[0];
     let samples_folder = values[1];
     let notes = parser::parse_file(tab_file).unwrap();
-    println!("playing notes:");
-    for note in notes.iter(){
-      println!("{:?}", note);
-    }
+    println!("Playing track, {} notes.", notes.len());
     player::play_track(notes, 200., Path::new(samples_folder));
   }
 
