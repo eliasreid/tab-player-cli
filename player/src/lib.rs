@@ -142,7 +142,6 @@ pub fn play_track<P: AsRef<Path>>(track: Vec<Note>, bpm: f32, samples_path: P){
 }
 
 
-
 #[cfg(test)]
 mod tests {
   use super::*;

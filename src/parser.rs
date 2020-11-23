@@ -59,6 +59,7 @@ pub fn generate_template(save_file: &str) -> std::io::Result<()>{
   Ok(())
 }
 
+#[derive(Debug)]
 struct StringParseState {
   open_note: LetterOctave,
   note_active: bool,
@@ -84,7 +85,7 @@ impl StringParseState {
     self.note_active = true;
   }
 
-  fn end_note(&mut self, end_index: u32) -> Option<Note> {
+  fn pop_note(&mut self, end_index: u32) -> Option<Note> {
     if self.note_active {
       self.note_active = false;
       Some(Note::new(self.note, self.note_start, end_index - self.note_start))
@@ -100,57 +101,59 @@ pub fn parse_file(file: &str) -> Result<Vec<Note>, std::io::Error> {
 
   //store note tracking state for each string
   let mut string_states = Vec::new();
-  let mut string_index: usize = 0;
-
-  let mut row = 0;
+  let mut string_index: Option<usize> = None;
+  let mut row = -1;
   let mut beats_in_line: u32 = 0;
   let mut row_beat_offest: u32 = 0;
 
   for line in contents.lines() {
-    if let Some(open_note) = parse_letter_octave(&line.chars().take(3).collect::<String>()) {
+    //Parse string base note (open note)
+    if let Some(base_note) = parse_letter_octave(&line.chars().take(3).collect::<String>()) {
+
+      if string_index.is_none() {
+        println!("move to next row");
+        string_index = Some(0);
+        row += 1;
+        row_beat_offest += beats_in_line;
+      }
       //for the first row, populate the string list with a StringParseState for each string
       if row == 0 {
-        string_states.push(StringParseState::new(open_note));
-      } else if string_index < string_states.len() {
-        //Checks that the strings match on subsequent rows. If not abort
-        //TODO: Better error handling here.
-        assert_eq!(string_states[string_index].open_note, open_note);
-
+        string_states.push(StringParseState::new(base_note));
       }
+      // TODO: handle case where notes are different from one row to another more gracefully
+      assert_eq!(string_states[string_index.unwrap()].open_note, base_note, "String notes do not match in each row.");
+
       //iterate over beats in the line
       for (i, s) in line.chars().skip(BEAT_OFFSET as usize).chunks(BEAT_WIDTH as usize).into_iter().enumerate() {
         //TODO: figure out a way to not make a copy here? (Should be able to get a "view" into 3 chars of the string)
         let chunk: String = s.collect();
         let beat_index = row_beat_offest + i as u32;
 
+        //Check if there's a fret number (new note starting)
         if let Ok(fret) = chunk.trim().parse::<u32>() {
           //If the string was already tracking a note, then end it, and add to note list
-          if let Some(note) = string_states[string_index].end_note(beat_index){
+          if let Some(note) = string_states[string_index.unwrap()].pop_note(beat_index){
             parsed_notes.push(note);
           }
-          string_states[string_index].new_note_at(beat_index, fret);
+          string_states[string_index.unwrap()].new_note_at(beat_index, fret);
         } else if chunk.contains(EMPTY_NOTE){
-          if let Some(note) = string_states[string_index].end_note(beat_index){
+          if let Some(note) = string_states[string_index.unwrap()].pop_note(beat_index){
             parsed_notes.push(note);
           }
         }
         //Don't have to handle the ">>" case explicitly. Just assume the note keeps going
       }
-      string_index += 1;
+      string_index = Some(string_index.unwrap() + 1);
       beats_in_line = (line.len() as u32 - BEAT_OFFSET) / BEAT_WIDTH;
     } else {
-      //Found a line without a string name at the start
-      if !string_states.is_empty() && string_index != 0 {
-        row += 1;
-        row_beat_offest += beats_in_line;
-      }
-      string_index = 0;
+      //Found a line without a string name at the start - reset string and look for next
+      string_index = None;
     }
   }
 
-  //Check if there's any other notes that didn't explicitly end
+  //Pop notes that are still active when finished parsing last row
   for string_state in string_states.iter_mut() {
-    if let Some(note) = string_state.end_note(row_beat_offest) {
+    if let Some(note) = string_state.pop_note(row_beat_offest + beats_in_line) {
       parsed_notes.push(note);
     }
   }

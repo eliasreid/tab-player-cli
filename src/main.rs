@@ -44,7 +44,7 @@ fn main() {
     for note in notes.iter(){
       println!("{:?}", note);
     }
-    player::play_track(notes, 125., Path::new(samples_folder));
+    player::play_track(notes, 200., Path::new(samples_folder));
   }
 
 
