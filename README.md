@@ -1,5 +1,7 @@
 # tab-player-cli
 
+**NOTE: Not easily useable until a better method of loading samples is figured out.**
+
 Write string instrument tabs in a plain text file and play them in the command line!
 
 Empty template example:
