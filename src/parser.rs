@@ -10,28 +10,24 @@ use player;
 const BEAT_WIDTH: u32 = 3;
 const BEAT_OFFSET: u32 = 4;
 const EMPTY_NOTE: &str = "--";
-///TODO: Should be configurable
+
 const BEATS_PER_MEASURE: usize = 16;
 const MEASURE_SEPARATOR: char = '|';
 const NOTE_SEPARATOR: char = ' ';
 
 //TODO: generate template should write to generic buffer instead of to a file directly (better for testing)
-
 pub fn generate_template(save_file: &str) -> std::io::Result<()>{
   let mut file = File::create(save_file)?;
 
-  //TODO: configurable - should annotate if standard tuning?
   let standard_tuning = ["E4 ", "B3 ", "G3 ", "D3 ", "A2 ", "E2 "];
 
   //TODO: configurable.
   let measures_per_row: usize = 2;
   let num_rows: usize = 2;
 
-  //TODO: unhard code this - should be based on timing parameters.
   file.write_all(b"   1/4         2/4         3/4         4/4\n")?;
   
   for _ in 0..num_rows {
-    //TODO: unhard code this - should be based on timing parameters.
     file.write_all(b"    |           |           |           |         ")?;
     for _ in 0..(measures_per_row - 1) { 
       file.write_all(b"  |           |           |           |")?;
@@ -111,7 +107,6 @@ pub fn parse_file(file: &str) -> Result<Vec<Note>, std::io::Error> {
     if let Some(base_note) = parse_letter_octave(&line.chars().take(3).collect::<String>()) {
 
       if string_index.is_none() {
-        println!("move to next row");
         string_index = Some(0);
         row += 1;
         row_beat_offest += beats_in_line;
@@ -125,7 +120,7 @@ pub fn parse_file(file: &str) -> Result<Vec<Note>, std::io::Error> {
 
       //iterate over beats in the line
       for (i, s) in line.chars().skip(BEAT_OFFSET as usize).chunks(BEAT_WIDTH as usize).into_iter().enumerate() {
-        //TODO: figure out a way to not make a copy here? (Should be able to get a "view" into 3 chars of the string)
+        //TODO: figure out a way to not make a copy here? Should be able to get a "view" into 3 chars of the string?
         let chunk: String = s.collect();
         let beat_index = row_beat_offest + i as u32;
 

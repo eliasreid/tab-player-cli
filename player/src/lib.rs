@@ -98,8 +98,6 @@ impl Note {
 pub fn play_track<P: AsRef<Path>>(track: Vec<Note>, bpm: f32, samples_path: P){
   //shadow bpm to convert from quarter note beats to sixteenth note beats
   let bpm = bpm * 4.;
-  //to avoid loading the samples on each "play_track", could have a Player struct that
-  //holds the samples data, with member functions for playing things.
   let samples = load_samples(samples_path);
 
   let device = rodio::default_output_device().unwrap();
@@ -134,13 +132,11 @@ pub fn play_track<P: AsRef<Path>>(track: Vec<Note>, bpm: f32, samples_path: P){
     if match_index == None {
       panic!("note is not valid, lower than lowest sample! {:?}", note.pitch);
     }
-
   }
   let track_duration: Duration = beat_dur * track_duration;
   rodio::play_raw(&device, mixer.convert_samples());
   std::thread::sleep(track_duration);
 }
-
 
 #[cfg(test)]
 mod tests {

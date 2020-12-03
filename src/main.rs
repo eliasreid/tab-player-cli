@@ -39,7 +39,4 @@ fn main() {
     println!("Playing track, {} notes.", notes.len());
     player::play_track(notes, 200., Path::new(samples_folder));
   }
-
-
-
 }
